@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYMZONE - Discover Your Perfect Gym Near You in Jamshedpur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Authentication and features run purely on the client-side using localStorage. No backend server required.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-tagline">
+          <i class="fas fa-fire"></i> Jamshedpur's #1 Fitness & Gym Finder
+        </div>
+        <h1 class="hero-title">Discover Your Perfect <span>Gym Near You</span></h1>
+        <p class="hero-subtitle">Compare monthly memberships, equipment, certified trainers, and luxury amenities across Bistupur, Sakchi, Kadma, Sonari & more.</p>
+
+        <!-- Search Box -->
+        <div class="hero-search-box">
+          <div class="search-input-group">
+            <i class="fas fa-search"></i>
+            <input type="text" id="heroSearchKeyword" placeholder="Search gym name, equipment, or facility...">
+          </div>
+          <div class="search-input-group">
+            <i class="fas fa-map-marker-alt"></i>
+            <select id="heroSearchLocation">
+              <option value="">All Locations (Jamshedpur)</option>
+              <option value="Bistupur">Bistupur</option>
+              <option value="Sakchi">Sakchi</option>
+              <option value="Kadma">Kadma</option>
+              <option value="Sonari">Sonari</option>
+              <option value="Telco">Telco</option>
+              <option value="Adityapur">Adityapur</option>
+              <option value="CH Area">CH Area</option>
+              <option value="Mango">Mango</option>
+            </select>
+          </div>
+          <button id="heroSearchBtn" class="btn btn-primary btn-lg">
+            <i class="fas fa-search"></i> Search Gyms
+          </button>
+        </div>
+
+        <div class="hero-cta-btns">
+          <a href="explore.html" class="btn btn-primary"><i class="fas fa-dumbbell"></i> Explore All Gyms</a>
+          <a href="explore.html?filter=new" class="btn btn-outline"><i class="fas fa-bolt"></i> New Openings</a>
+          <a href="booking.html" class="btn btn-outline" style="border-color: var(--accent-orange); color: var(--accent-orange);"><i class="fas fa-calendar-check"></i> Book Free Trial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Gyms Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-subtitle">Top Rated Facilities</span>
+          <h2 class="section-title">Featured Gyms in Jamshedpur</h2>
+        </div>
+        <a href="explore.html" class="btn btn-outline">View All Gyms <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="gyms-grid" id="homeFeaturedGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- New Openings Section -->
+  <section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-subtitle">Just Launched</span>
+          <h2 class="section-title">New Gym Openings</h2>
+        </div>
+        <a href="explore.html?filter=new" class="btn btn-outline">See All New <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="gyms-grid" id="homeNewGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose GYMZONE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; display: block; margin-bottom: 50px;">
+        <span class="section-subtitle">Why Fitness Enthusiasts Trust Us</span>
+        <h2 class="section-title">Why Choose GYMZONE</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <h3 class="feature-title">Verified Local Gyms</h3>
+          <p class="feature-desc">Comprehensive details on gyms across Bistupur, Sakchi, Kadma, Sonari, CH Area, and Telco.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fas fa-tags"></i></div>
+          <h3 class="feature-title">Transparent Pricing</h3>
+          <p class="feature-desc">Compare monthly, quarterly, half-yearly, and yearly membership plans with zero hidden fees.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fas fa-ticket-alt"></i></div>
+          <h3 class="feature-title">Instant Free Trial Pass</h3>
+          <p class="feature-desc">Book 1-day free trial sessions directly online and test gym equipment before committing.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+          <h3 class="feature-title">Certified Trainer Info</h3>
+          <p class="feature-desc">Explore trainer credentials, crossfit leads, yoga instructors, and female coach availability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header" style="text-align: center; display: block; margin-bottom: 50px;">
+        <span class="section-subtitle">3 Easy Steps</span>
+        <h2 class="section-title">How GYMZONE Works</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box" style="position: relative;">
+          <div style="position: absolute; top: 15px; right: 20px; font-family: var(--font-heading); font-size: 2.5rem; color: rgba(255,107,0,0.2); font-weight: 800;">01</div>
+          <div class="feature-icon"><i class="fas fa-search-location"></i></div>
+          <h3 class="feature-title">1. Search & Filter</h3>
+          <p class="feature-desc">Find gyms near your neighborhood by filtering price, swimming pool, AC, crossfit, or steam bath.</p>
+        </div>
+
+        <div class="feature-box" style="position: relative;">
+          <div style="position: absolute; top: 15px; right: 20px; font-family: var(--font-heading); font-size: 2.5rem; color: rgba(255,107,0,0.2); font-weight: 800;">02</div>
+          <div class="feature-icon"><i class="fas fa-eye"></i></div>
+          <h3 class="feature-title">2. View Details & Reviews</h3>
+          <p class="feature-desc">Check high-res gym photo galleries, trainer profiles, operational hours, and honest reviews.</p>
+        </div>
+
+        <div class="feature-box" style="position: relative;">
+          <div style="position: absolute; top: 15px; right: 20px; font-family: var(--font-heading); font-size: 2.5rem; color: rgba(255,107,0,0.2); font-weight: 800;">03</div>
+          <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+          <h3 class="feature-title">3. Book Free Trial & Workout</h3>
+          <p class="feature-desc">Schedule your free workout trial in seconds and show up to start your transformation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="section" style="background: linear-gradient(135deg, rgba(255,107,0,0.15), var(--bg-surface)); border-top: 1px solid var(--accent-orange);">
+    <div class="container" style="text-align: center;">
+      <h2 style="font-family: var(--font-heading); font-size: 3rem; margin-bottom: 15px; text-transform: uppercase;">Are You a Gym Owner in Jamshedpur?</h2>
+      <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px auto;">Promote your fitness studio, manage trial bookings, and reach thousands of local workout enthusiasts on GYMZONE.</p>
+      <a href="register.html" class="btn btn-primary btn-lg"><i class="fas fa-store"></i> List Your Gym For Free</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="brand-logo">
+            <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+          </a>
+          <p>GYMZONE is Jamshedpur's premier fitness discovery platform. Helping members find top gyms, compare membership rates, and book free trial workouts effortlessly.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="explore.html">Explore Gyms</a></li>
+            <li><a href="booking.html">Book Free Trial</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">User Accounts</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Create Account</a></li>
+            <li><a href="favorites.html">Saved Favorites</a></li>
+            <li><a href="owner-dashboard.html">Gym Owner Portal</a></li>
+            <li><a href="admin-dashboard.html">Admin Panel</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Jamshedpur Hub</h4>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;"><i class="fas fa-map-marker-alt" style="color: var(--accent-orange);"></i> Bistupur, Sakchi, Kadma, Sonari & Telco</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;"><i class="fas fa-envelope" style="color: var(--accent-orange);"></i> support@gymzone.com</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fas fa-phone-alt" style="color: var(--accent-orange);"></i> +91 98351 00000</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. Frontend Demo Application. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const allGyms = getGymsFromStorage().filter(g => g.status === "approved");
+      
+      const featuredGrid = document.getElementById("homeFeaturedGrid");
+      if (featuredGrid) {
+        const featured = allGyms.filter(g => g.featured).slice(0, 3);
+        featuredGrid.innerHTML = featured.map(gym => createGymCardHTML(gym)).join("");
+      }
+
+      const newGrid = document.getElementById("homeNewGrid");
+      if (newGrid) {
+        const newGyms = allGyms.filter(g => g.isNew).slice(0, 3);
+        if (newGyms.length === 0) {
+          newGrid.innerHTML = allGyms.slice(3, 6).map(gym => createGymCardHTML(gym)).join("");
+        } else {
+          newGrid.innerHTML = newGyms.map(gym => createGymCardHTML(gym)).join("");
+        }
+      }
+
+      updateFavoriteIcons();
+    });
+  </script>
+</body>
+</html>

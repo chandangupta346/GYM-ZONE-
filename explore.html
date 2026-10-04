@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Gyms in Jamshedpur - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Authentication and data are managed in localStorage.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link active">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div style="background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 40px 0;">
+    <div class="container">
+      <h1 style="font-family: var(--font-heading); font-size: 3rem; text-transform: uppercase; margin-bottom: 10px;">Explore Gyms in <span>Jamshedpur</span></h1>
+      <p style="color: var(--text-muted);">Find, compare, and book free trial passes for top fitness studios near you.</p>
+    </div>
+  </div>
+
+  <!-- Main Explore Section -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="container">
+      
+      <!-- Top Control Bar -->
+      <div class="explore-top-bar">
+        <div class="search-inline-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search gym name, locality, or features...">
+        </div>
+
+        <button id="toggleFiltersBtn" class="btn btn-outline btn-sm" style="display: none; height: 42px;">
+          <i class="fas fa-filter"></i> Filters
+        </button>
+
+        <div class="sort-select-wrap">
+          <label for="sortSelect"><i class="fas fa-sort-amount-down"></i> Sort By:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="featured">Featured First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="newest">Newest Openings</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="explore-container">
+        
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+          <div class="filter-title">
+            <span><i class="fas fa-filter" style="color: var(--accent-orange);"></i> Filters</span>
+            <button id="resetFiltersBtn" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.75rem;">Reset</button>
+          </div>
+
+          <!-- Location Filter -->
+          <div class="filter-group">
+            <label class="form-label" style="font-size: 0.95rem;">Location Area</label>
+            <select id="locationFilter" class="form-control" style="font-size: 0.88rem;">
+              <option value="">All Locations in Jamshedpur</option>
+              <option value="Bistupur">Bistupur</option>
+              <option value="Sakchi">Sakchi</option>
+              <option value="Kadma">Kadma</option>
+              <option value="Sonari">Sonari</option>
+              <option value="Telco">Telco</option>
+              <option value="Adityapur">Adityapur</option>
+              <option value="CH Area">CH Area</option>
+              <option value="Mango">Mango</option>
+            </select>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div class="filter-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label class="form-label" style="margin-bottom: 0;">Max Monthly Price</label>
+              <span id="priceValueLabel" style="color: var(--accent-orange); font-weight: 700;">₹5000</span>
+            </div>
+            <input type="range" id="priceRange" class="price-range-slider" min="1000" max="5000" step="200" value="5000">
+            <div class="price-values">
+              <span>₹1,000</span>
+              <span>₹5,000</span>
+            </div>
+          </div>
+
+          <!-- Facilities Checkboxes -->
+          <div class="filter-group">
+            <label class="form-label">Facilities & Amenities</label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="AC"> Air Conditioning (AC)
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Personal Trainer"> Personal Trainer
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Swimming Pool"> Swimming Pool
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Steam Bath"> Steam Bath / Sauna
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Crossfit"> Crossfit Zone
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Locker Room"> Locker Room
+            </label>
+            <label class="filter-checkbox">
+              <input type="checkbox" class="facility-checkbox" value="Parking"> Parking Space
+            </label>
+          </div>
+        </aside>
+
+        <!-- Gyms Results Area -->
+        <div>
+          <div id="gymsCountLabel" style="color: var(--text-muted); font-weight: 600; margin-bottom: 20px; font-size: 0.95rem;">
+            Loading gyms...
+          </div>
+          
+          <div class="gyms-grid" id="exploreGymsGrid">
+            <!-- Dynamically rendered by JS search.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

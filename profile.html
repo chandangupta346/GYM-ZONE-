@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Profile data is updated locally in browser localStorage.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Section -->
+  <section class="section">
+    <div class="container">
+      <div id="profileContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/booking.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProfilePage();
+    });
+
+    function renderProfilePage() {
+      const container = document.getElementById("profileContainer");
+      const currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-user-lock empty-icon"></i>
+            <h3 class="empty-title">Login Required</h3>
+            <p class="empty-desc">Please log in to view your profile settings and trial pass history.</p>
+            <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Go to Login</a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div style="display: grid; grid-template-columns: 320px 1fr; gap: 40px;">
+          
+          <!-- Profile Card -->
+          <div class="detail-block" style="text-align: center;">
+            <div class="user-avatar" style="width: 90px; height: 90px; font-size: 2.2rem; margin: 0 auto 15px auto;">
+              ${currentUser.avatar || 'U'}
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;">${currentUser.name}</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">${currentUser.email}</p>
+            <span class="badge ${currentUser.role === 'admin' ? 'badge-danger' : currentUser.role === 'owner' ? 'badge-orange' : 'badge-success'}">
+              ${currentUser.role.toUpperCase()} ACCOUNT
+            </span>
+
+            <div style="border-top: 1px solid var(--border-color); margin: 25px 0; padding-top: 20px; text-align: left;">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;"><strong>Member Since:</strong> ${currentUser.joinedDate || '2026-01-15'}</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Phone:</strong> ${currentUser.phone || 'Not set'}</p>
+            </div>
+
+            <button onclick="logoutUser()" class="btn btn-outline" style="width: 100%; color: var(--danger-color); border-color: var(--danger-color);">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+
+          <!-- Edit Profile & Bookings Tab -->
+          <div>
+            <div class="detail-block" style="margin-bottom: 30px;">
+              <h3 class="detail-block-title"><i class="fas fa-user-edit"></i> Edit Profile Details</h3>
+              <form id="editProfileForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="editName" class="form-control" value="${currentUser.name}" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" id="editPhone" class="form-control" value="${currentUser.phone || ''}" placeholder="10 digit mobile">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Email Address (Read Only)</label>
+                  <input type="email" class="form-control" value="${currentUser.email}" disabled style="opacity: 0.6;">
+                </div>
+
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Profile Changes</button>
+              </form>
+            </div>
+
+            <div class="detail-block">
+              <h3 class="detail-block-title"><i class="fas fa-calendar-check"></i> My Free Trial Pass History</h3>
+              <div id="userBookingsList">
+                <!-- Rendered by booking.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      const editForm = document.getElementById("editProfileForm");
+      if (editForm) {
+        editForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("editName").value.trim();
+          const phone = document.getElementById("editPhone").value.trim();
+
+          const initials = name.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2) || "U";
+          const updated = {
+            ...currentUser,
+            name: name,
+            phone: phone,
+            avatar: initials
+          };
+
+          if (updateUserProfile(updated)) {
+            showToast("Profile details updated!", "success");
+            setTimeout(() => location.reload(), 600);
+          }
+        });
+      }
+
+      renderUserBookings();
+    }
+  </script>
+</body>
+</html>

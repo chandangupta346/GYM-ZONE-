@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-exclamation-triangle"></i> DEMO WARNING: Authentication is simulated on the frontend via localStorage. Do NOT use real personal passwords!
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Card Wrapper -->
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1 class="auth-title">Welcome <span>Back</span></h1>
+        <p class="auth-subtitle">Log in to manage your trial passes, wishlist, and gym listings.</p>
+      </div>
+
+      <!-- Demo Quick Logins Box -->
+      <div class="demo-credentials-box">
+        <p><i class="fas fa-key"></i> Quick Demo Accounts (Click to Auto-fill):</p>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+          <button type="button" onclick="fillDemo('user@gymzone.com', 'pass123')" class="btn btn-outline btn-sm" style="justify-content: flex-start; text-align: left; padding: 4px 8px; font-size: 0.8rem;">
+            <i class="fas fa-user" style="color: var(--success-color);"></i> <strong>Member:</strong> user@gymzone.com (pass123)
+          </button>
+          <button type="button" onclick="fillDemo('owner@gymzone.com', 'pass123')" class="btn btn-outline btn-sm" style="justify-content: flex-start; text-align: left; padding: 4px 8px; font-size: 0.8rem;">
+            <i class="fas fa-store" style="color: var(--accent-orange);"></i> <strong>Owner:</strong> owner@gymzone.com (pass123)
+          </button>
+          <button type="button" onclick="fillDemo('admin@gymzone.com', 'pass123')" class="btn btn-outline btn-sm" style="justify-content: flex-start; text-align: left; padding: 4px 8px; font-size: 0.8rem;">
+            <i class="fas fa-user-shield" style="color: var(--danger-color);"></i> <strong>Admin:</strong> admin@gymzone.com (pass123)
+          </button>
+        </div>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <span id="loginError" class="error-text" style="margin-bottom: 15px;"></span>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px 0;">
+          <i class="fas fa-sign-in-alt"></i> Log In
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+        Don't have an account? <a href="register.html" style="color: var(--accent-orange); font-weight: 600;">Register Here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function fillDemo(email, password) {
+      document.getElementById("loginEmail").value = email;
+      document.getElementById("loginPassword").value = password;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("loginForm");
+      if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value.trim();
+          const password = document.getElementById("loginPassword").value;
+          const errorEl = document.getElementById("loginError");
+
+          errorEl.classList.remove("show");
+
+          const res = loginUser(email, password);
+          if (res.success) {
+            showToast(`Welcome back, ${res.user.name}!`, "success");
+            setTimeout(() => {
+              if (res.user.role === "admin") {
+                window.location.href = "admin-dashboard.html";
+              } else if (res.user.role === "owner") {
+                window.location.href = "owner-dashboard.html";
+              } else {
+                window.location.href = "index.html";
+              }
+            }, 600);
+          } else {
+            errorEl.textContent = res.message;
+            errorEl.classList.add("show");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

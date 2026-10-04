@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Account - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-exclamation-triangle"></i> DEMO WARNING: Authentication is simulated on the frontend via localStorage. Do NOT use real passwords!
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Register Card Wrapper -->
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1 class="auth-title">Create <span>Account</span></h1>
+        <p class="auth-subtitle">Join GYMZONE to save favorite gyms, book free trials & list fitness centers.</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="regName" class="form-control" placeholder="Enter your name" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" id="regEmail" class="form-control" placeholder="yourname@domain.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" id="regPhone" class="form-control" placeholder="10-digit mobile number">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Account Type / Role *</label>
+          <select id="regRole" class="form-control" required>
+            <option value="member">Fitness Enthusiast / Member</option>
+            <option value="owner">Gym Owner / Manager</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Create Password *</label>
+          <input type="password" id="regPassword" class="form-control" placeholder="Enter password (e.g. pass123)" required>
+        </div>
+
+        <span id="regError" class="error-text" style="margin-bottom: 15px;"></span>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px 0;">
+          <i class="fas fa-user-plus"></i> Register Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+        Already have an account? <a href="login.html" style="color: var(--accent-orange); font-weight: 600;">Login Here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const regForm = document.getElementById("registerForm");
+      if (regForm) {
+        regForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("regName").value.trim();
+          const email = document.getElementById("regEmail").value.trim();
+          const phone = document.getElementById("regPhone").value.trim();
+          const role = document.getElementById("regRole").value;
+          const password = document.getElementById("regPassword").value;
+          const errorEl = document.getElementById("regError");
+
+          errorEl.classList.remove("show");
+
+          const res = registerUser(name, email, password, role, phone);
+          if (res.success) {
+            showToast("Account created successfully!", "success");
+            setTimeout(() => {
+              if (role === "owner") {
+                window.location.href = "owner-dashboard.html";
+              } else {
+                window.location.href = "index.html";
+              }
+            }, 600);
+          } else {
+            errorEl.textContent = res.message;
+            errorEl.classList.add("show");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

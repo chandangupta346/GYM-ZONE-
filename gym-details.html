@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Details - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Authentication and data are managed in localStorage.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link active">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Gym Details Dynamic Container -->
+  <div id="gymDetailsContainer" class="main-content">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Review Modal -->
+  <div id="reviewModal" class="modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>
+      <h3 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 15px;">Write a Customer Review</h3>
+      <form id="addReviewForm">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="reviewAuthor" class="form-control" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <select id="reviewRating" class="form-control" required>
+            <option value="5">★★★★★ (5/5) Excellent</option>
+            <option value="4">★★★★☆ (4/5) Very Good</option>
+            <option value="3">★★★☆☆ (3/5) Average</option>
+            <option value="2">★★☆☆☆ (2/5) Poor</option>
+            <option value="1">★☆☆☆☆ (1/5) Terrible</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Experience / Review</label>
+          <textarea id="reviewComment" class="form-control" placeholder="Describe the cleanliness, trainers, equipment quality..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-paper-plane"></i> Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let currentGymId = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      currentGymId = urlParams.get("id") || "gym_1";
+      renderGymDetails(currentGymId);
+
+      const reviewForm = document.getElementById("addReviewForm");
+      if (reviewForm) {
+        reviewForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const author = document.getElementById("reviewAuthor").value.trim();
+          const rating = parseInt(document.getElementById("reviewRating").value, 10);
+          const comment = document.getElementById("reviewComment").value.trim();
+
+          const gym = getGymById(currentGymId);
+          if (gym) {
+            if (!gym.reviews) gym.reviews = [];
+            const newRev = {
+              id: "rev_" + Date.now(),
+              userName: author,
+              rating: rating,
+              date: new Date().toISOString().split("T")[0],
+              comment: comment
+            };
+
+            gym.reviews.unshift(newRev);
+            gym.reviewCount = (gym.reviewCount || 0) + 1;
+            
+            // Recalculate rating average
+            const sum = gym.reviews.reduce((acc, r) => acc + r.rating, 0);
+            gym.rating = parseFloat((sum / gym.reviews.length).toFixed(1));
+
+            updateGymListing(gym);
+            showToast("Review published successfully!", "success");
+            closeReviewModal();
+            renderGymDetails(currentGymId);
+          }
+        });
+      }
+    });
+
+    function renderGymDetails(id) {
+      const container = document.getElementById("gymDetailsContainer");
+      const gym = getGymById(id);
+
+      if (!gym) {
+        container.innerHTML = `
+          <div class="container section">
+            <div class="empty-state">
+              <i class="fas fa-exclamation-circle empty-icon"></i>
+              <h3 class="empty-title">Gym Not Found</h3>
+              <p class="empty-desc">The gym listing you are looking for does not exist or has been removed.</p>
+              <a href="explore.html" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to Explore</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      document.title = `${gym.name} - GYMZONE Jamshedpur`;
+
+      const mainImg = gym.image;
+      const galleryImgs = gym.gallery && gym.gallery.length > 1 ? gym.gallery : [
+        mainImg,
+        "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=800&auto=format&fit=crop"
+      ];
+
+      const plans = gym.plans || {
+        monthly: gym.price,
+        quarterly: Math.round(gym.price * 3 * 0.9),
+        halfYearly: Math.round(gym.price * 6 * 0.85),
+        yearly: Math.round(gym.price * 12 * 0.75)
+      };
+
+      const currentUser = getCurrentUser();
+
+      container.innerHTML = `
+        <div class="container" style="padding-top: 30px;">
+          
+          <!-- Title Header -->
+          <div class="gym-title-area">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span class="badge badge-orange"><i class="fas fa-map-marker-alt"></i> ${gym.location}, Jamshedpur</span>
+                ${gym.isNew ? '<span class="badge badge-success">NEW OPENING</span>' : ''}
+              </div>
+              <h1 class="gym-title-main">${gym.name}</h1>
+              <p style="color: var(--text-muted);"><i class="fas fa-location-arrow" style="color: var(--accent-orange);"></i> ${gym.address}</p>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <button class="favorite-btn active" data-id="${gym.id}" onclick="toggleFavorite('${gym.id}')" style="position: static; width: 45px; height: 45px; font-size: 1.2rem;">
+                <i class="far fa-heart"></i>
+              </button>
+              <a href="booking.html?gymId=${gym.id}" class="btn btn-primary btn-lg"><i class="fas fa-calendar-check"></i> Book Free Trial</a>
+            </div>
+          </div>
+
+          <!-- Photo Gallery Grid -->
+          <div class="gym-details-gallery">
+            <div class="gallery-main">
+              <img src="${galleryImgs[0]}" alt="${gym.name}" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop'">
+            </div>
+            <div class="gallery-side">
+              <img src="${galleryImgs[1] || galleryImgs[0]}" alt="${gym.name}" onerror="this.src='https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=800&auto=format&fit=crop'">
+              <img src="${galleryImgs[2] || galleryImgs[0]}" alt="${gym.name}" onerror="this.src='https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=800&auto=format&fit=crop'">
+            </div>
+          </div>
+
+          <!-- Details & Sidebar Layout -->
+          <div class="details-layout">
+            
+            <!-- Left Info Column -->
+            <div>
+              
+              <!-- About Gym -->
+              <div class="detail-block">
+                <h3 class="detail-block-title"><i class="fas fa-info-circle"></i> About the Gym</h3>
+                <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.7;">
+                  ${gym.description || 'Welcome to ' + gym.name + '. Equipped with top tier cardio and resistance training gear, professional trainers, and hygienic facilities.'}
+                </p>
+              </div>
+
+              <!-- Facilities & Equipment -->
+              <div class="detail-block">
+                <h3 class="detail-block-title"><i class="fas fa-dumbbell"></i> Facilities & Equipment</h3>
+                <div class="facilities-grid">
+                  ${gym.facilities.map(f => `
+                    <div class="facility-item">
+                      <i class="fas fa-check-circle"></i>
+                      <span>${f}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Membership Plans -->
+              <div class="detail-block">
+                <h3 class="detail-block-title"><i class="fas fa-id-card"></i> Membership Plans</h3>
+                <div class="plans-grid">
+                  <div class="plan-card">
+                    <div class="plan-title">Monthly</div>
+                    <div class="plan-price">₹${plans.monthly.toLocaleString()}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Standard Plan</div>
+                  </div>
+                  
+                  <div class="plan-card popular">
+                    <span class="badge badge-orange" style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%);">SAVE 10%</span>
+                    <div class="plan-title">Quarterly (3 Mo)</div>
+                    <div class="plan-price">₹${plans.quarterly.toLocaleString()}</div>
+                    <div class="plan-savings">Save ~₹${(plans.monthly * 3 - plans.quarterly).toLocaleString()}</div>
+                  </div>
+
+                  <div class="plan-card">
+                    <div class="plan-title">Half-Yearly (6 Mo)</div>
+                    <div class="plan-price">₹${plans.halfYearly.toLocaleString()}</div>
+                    <div class="plan-savings">Save ~₹${(plans.monthly * 6 - plans.halfYearly).toLocaleString()}</div>
+                  </div>
+
+                  <div class="plan-card">
+                    <div class="plan-title">Yearly (12 Mo)</div>
+                    <div class="plan-price">₹${plans.yearly.toLocaleString()}</div>
+                    <div class="plan-savings">Save ~₹${(plans.monthly * 12 - plans.yearly).toLocaleString()}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Certified Trainers -->
+              <div class="detail-block">
+                <h3 class="detail-block-title"><i class="fas fa-user-ninja"></i> Certified Trainers</h3>
+                <div class="trainers-grid">
+                  ${(gym.trainers || []).map(t => `
+                    <div class="trainer-card">
+                      <img src="${t.img}" alt="${t.name}" class="trainer-img" onerror="this.src='https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=300&auto=format&fit=crop'">
+                      <div class="trainer-name">${t.name}</div>
+                      <div class="trainer-role">${t.role}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Customer Reviews Section -->
+              <div class="detail-block">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                  <h3 class="detail-block-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;"><i class="fas fa-star"></i> Customer Reviews</h3>
+                  <button onclick="openReviewModal()" class="btn btn-outline btn-sm"><i class="fas fa-pen"></i> Write Review</button>
+                </div>
+
+                <div class="reviews-summary">
+                  <div class="rating-big-score">${gym.rating}</div>
+                  <div>
+                    <div class="stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">Based on ${gym.reviewCount || gym.reviews?.length || 10} verified user reviews</div>
+                  </div>
+                </div>
+
+                <div class="reviews-list">
+                  ${(gym.reviews || []).map(r => `
+                    <div class="review-card">
+                      <div class="review-header">
+                        <div class="reviewer-name">${r.userName}</div>
+                        <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                      </div>
+                      <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">Reviewed on ${r.date}</div>
+                      <p style="font-size: 0.9rem; color: var(--text-white);">${r.comment}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Sticky Booking Sidebar -->
+            <aside class="sticky-booking-sidebar">
+              <div class="booking-card-widget">
+                <div style="text-align: center; margin-bottom: 20px;">
+                  <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Starting Monthly Pass</span>
+                  <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-orange); margin: 5px 0;">₹${gym.price.toLocaleString()}<span style="font-size: 1rem; color: var(--text-muted);">/mo</span></div>
+                  <span class="badge badge-success"><i class="fas fa-gift"></i> 1-Day Free Trial Available</span>
+                </div>
+
+                <a href="booking.html?gymId=${gym.id}" class="btn btn-primary" style="width: 100%; margin-bottom: 25px; padding: 14px 0;"><i class="fas fa-ticket-alt"></i> Claim Free Trial Pass</a>
+
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-white);">Operating Hours & Contact</h4>
+                
+                <div class="timing-row">
+                  <span>Schedule</span>
+                  <span>${gym.timings}</span>
+                </div>
+                <div class="timing-row">
+                  <span>Days Open</span>
+                  <span>${gym.openingDays || 'Mon - Sat'}</span>
+                </div>
+                <div class="timing-row">
+                  <span>Phone</span>
+                  <span>${gym.phone || '+91 98351 00000'}</span>
+                </div>
+                <div class="timing-row">
+                  <span>Email</span>
+                  <span>${gym.email || 'info@gymzone.com'}</span>
+                </div>
+
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--text-muted); text-align: center;">
+                  <i class="fas fa-shield-alt" style="color: var(--accent-orange);"></i> GYMZONE Guarantee: No payment required for free trial booking.
+                </div>
+              </div>
+            </aside>
+
+          </div>
+
+        </div>
+      `;
+
+      updateFavoriteIcons();
+    }
+
+    function openReviewModal() {
+      const modal = document.getElementById("reviewModal");
+      const currentUser = getCurrentUser();
+      if (currentUser && document.getElementById("reviewAuthor")) {
+        document.getElementById("reviewAuthor").value = currentUser.name;
+      }
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeReviewModal() {
+      const modal = document.getElementById("reviewModal");
+      if (modal) modal.classList.remove("active");
+    }
+  </script>
+</body>
+</html>

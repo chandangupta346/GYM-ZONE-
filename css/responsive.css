@@ -1,0 +1,133 @@
+/* ==========================================================================
+   GYMZONE - Responsive Media Queries
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+  
+  .explore-container {
+    grid-template-columns: 240px 1fr;
+    gap: 20px;
+  }
+
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-booking-sidebar {
+    position: static;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: var(--bg-card);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    gap: 20px;
+    transition: var(--transition-normal);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .nav-links.active {
+    left: 0;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-search-box {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    padding: 15px;
+  }
+
+  .search-input-group {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+  }
+
+  .search-input-group:last-of-type {
+    border-bottom: none;
+  }
+
+  .explore-container {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-sidebar {
+    position: static;
+    display: none;
+  }
+
+  .filters-sidebar.active {
+    display: block;
+  }
+
+  .gym-details-gallery {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .gallery-main {
+    height: 260px;
+  }
+
+  .gallery-side {
+    flex-direction: row;
+    height: 120px;
+  }
+
+  .gallery-side img {
+    height: 100%;
+    width: calc(50% - 7.5px);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.1rem;
+  }
+
+  .gyms-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

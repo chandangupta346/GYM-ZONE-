@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Trial - GYMZONE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Bookings are stored locally in your browser's localStorage.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link active">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div style="background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 40px 0;">
+    <div class="container">
+      <h1 style="font-family: var(--font-heading); font-size: 3rem; text-transform: uppercase; margin-bottom: 10px;">Book a <span>Free Trial Pass</span></h1>
+      <p style="color: var(--text-muted);">Experience workout facilities, heavy machinery & trainer guidance before buying a membership.</p>
+    </div>
+  </div>
+
+  <!-- Booking Form & History Section -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        
+        <!-- Booking Form Box -->
+        <div class="detail-block">
+          <h2 class="detail-block-title"><i class="fas fa-ticket-alt"></i> Reserve 1-Day Trial Pass</h2>
+          
+          <form id="trialBookingForm">
+            <div class="form-group">
+              <label class="form-label" for="bookingName">Full Name *</label>
+              <input type="text" id="bookingName" class="form-control" placeholder="Enter your full name" required>
+              <span id="bookingNameError" class="error-text"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="bookingPhone">Mobile Number (10 Digits) *</label>
+                <input type="tel" id="bookingPhone" class="form-control" placeholder="e.g. 9835123456" required>
+                <span id="bookingPhoneError" class="error-text"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="bookingEmail">Email Address</label>
+                <input type="email" id="bookingEmail" class="form-control" placeholder="your@email.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="bookingGymSelect">Select Gym in Jamshedpur *</label>
+              <select id="bookingGymSelect" class="form-control" required>
+                <option value="">-- Select a Gym --</option>
+              </select>
+              <span id="bookingGymError" class="error-text"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="bookingDate">Preferred Date *</label>
+                <input type="date" id="bookingDate" class="form-control" required>
+                <span id="bookingDateError" class="error-text"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="bookingTimeSlot">Preferred Time Slot *</label>
+                <select id="bookingTimeSlot" class="form-control" required>
+                  <option value="">-- Select Slot --</option>
+                  <option value="Morning (06:00 AM - 09:00 AM)">Morning (06:00 AM - 09:00 AM)</option>
+                  <option value="Mid-Day (10:00 AM - 01:00 PM)">Mid-Day (10:00 AM - 01:00 PM)</option>
+                  <option value="Evening (05:00 PM - 08:00 PM)">Evening (05:00 PM - 08:00 PM)</option>
+                  <option value="Night (08:00 PM - 10:00 PM)">Night (08:00 PM - 10:00 PM)</option>
+                </select>
+                <span id="bookingTimeError" class="error-text"></span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 10px;">
+              <i class="fas fa-check-circle"></i> Confirm Free Trial Reservation
+            </button>
+          </form>
+        </div>
+
+        <!-- User Bookings History Box -->
+        <div>
+          <div class="detail-block">
+            <h2 class="detail-block-title"><i class="fas fa-history"></i> My Saved Bookings</h2>
+            <div id="userBookingsList">
+              <!-- Rendered by booking.js -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Confirmation Modal -->
+  <div id="bookingSuccessModal" class="modal-overlay">
+    <div class="modal-container" style="text-align: center;">
+      <button class="modal-close-btn" onclick="document.getElementById('bookingSuccessModal').classList.remove('active')"><i class="fas fa-times"></i></button>
+      <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success-color); margin-bottom: 15px;"></i>
+      <h3 style="font-family: var(--font-heading); font-size: 2.5rem; line-height: 1;">Trial Pass Confirmed!</h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Your free trial pass has been generated and saved to your browser session.</p>
+      
+      <div id="bookingConfirmationDetails"></div>
+
+      <div style="margin-top: 25px; display: flex; gap: 15px; justify-content: center;">
+        <button onclick="document.getElementById('bookingSuccessModal').classList.remove('active')" class="btn btn-primary">Done</button>
+        <a href="explore.html" class="btn btn-outline">Explore More Gyms</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/booking.js"></script>
+</body>
+</html>

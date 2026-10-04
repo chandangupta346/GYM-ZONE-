@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - GYMZONE Jamshedpur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: Contact form sends instant feedback simulated on client-side.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div style="background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 40px 0;">
+    <div class="container">
+      <h1 style="font-family: var(--font-heading); font-size: 3rem; text-transform: uppercase; margin-bottom: 10px;">Get in <span>Touch</span></h1>
+      <p style="color: var(--text-muted);">Have questions about gym listings, free trial passes, or partnership in Jamshedpur?</p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        
+        <!-- Contact Form -->
+        <div class="detail-block">
+          <h3 class="detail-block-title"><i class="fas fa-paper-plane"></i> Send Us a Message</h3>
+          
+          <form id="contactForm">
+            <div class="form-group">
+              <label class="form-label">Your Full Name *</label>
+              <input type="text" id="contactName" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="your@email.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" id="contactPhone" class="form-control" placeholder="10-digit mobile">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select id="contactSubject" class="form-control">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Gym Listing Partnership">Gym Listing Partnership (Owners)</option>
+                <option value="Trial Pass Help">Free Trial Pass Issue</option>
+                <option value="Feedback">Platform Feedback</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Your Message *</label>
+              <textarea id="contactMessage" class="form-control" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;"><i class="fas fa-paper-plane"></i> Send Message</button>
+          </form>
+        </div>
+
+        <!-- Contact Info Cards -->
+        <div>
+          <div class="detail-block" style="margin-bottom: 25px;">
+            <h3 class="detail-block-title"><i class="fas fa-map-marker-alt"></i> Jamshedpur Headquarters</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+              Regal Plaza Building, 2nd Floor, Main Road, Bistupur, Jamshedpur, Jharkhand 831001
+            </p>
+          </div>
+
+          <div class="detail-block" style="margin-bottom: 25px;">
+            <h3 class="detail-block-title"><i class="fas fa-headset"></i> Support & Hotline</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 8px;"><i class="fas fa-phone-alt" style="color: var(--accent-orange);"></i> +91 98351 00000</p>
+            <p style="color: var(--text-muted); font-size: 0.95rem;"><i class="fas fa-envelope" style="color: var(--accent-orange);"></i> support@gymzone.com</p>
+          </div>
+
+          <div class="detail-block">
+            <h3 class="detail-block-title"><i class="fas fa-clock"></i> Support Hours</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Monday – Saturday: 9:00 AM – 7:00 PM IST</p>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Sunday: Closed (Online trial booking active 24/7)</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const contactForm = document.getElementById("contactForm");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          showToast("Thank you! Your message has been received.", "success");
+          contactForm.reset();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

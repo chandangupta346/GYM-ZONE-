@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - GYMZONE Jamshedpur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Disclaimer Banner -->
+  <div class="demo-banner">
+    <i class="fas fa-flask"></i> DEMO MODE: GYMZONE is a frontend single-page web app built with Vanilla JS, HTML5, and CSS3.
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <i class="fas fa-dumbbell"></i> GYM<span>ZONE</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore Gyms</a></li>
+        <li><a href="booking.html" class="nav-link">Book Free Trial</a></li>
+        <li><a href="about.html" class="nav-link active">About Us</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div class="nav-right">
+          <!-- Populated by JS -->
+        </div>
+        <button class="hamburger-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div style="background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 50px 0; text-align: center;">
+    <div class="container">
+      <h1 style="font-family: var(--font-heading); font-size: 3.5rem; text-transform: uppercase; margin-bottom: 15px;">About <span>GYMZONE</span></h1>
+      <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto; font-size: 1.1rem;">
+        Connecting fitness enthusiasts with the finest gyms, crossfit boxes, powerlifting arenas, and luxury wellness centers across Jamshedpur.
+      </p>
+    </div>
+  </div>
+
+  <!-- Mission & Story -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
+        <div>
+          <span class="section-subtitle">Our Vision</span>
+          <h2 class="section-title" style="margin-bottom: 20px;">Empowering Jamshedpur's Fitness Movement</h2>
+          <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 20px;">
+            Founded with the mission to eliminate guesswork from choosing a gym, GYMZONE brings complete transparency to membership rates, equipment offerings, trainer profiles, and operating hours across Bistupur, Sakchi, Kadma, Sonari, Telco, and Adityapur.
+          </p>
+          <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 25px;">
+            Whether you are looking for heavy powerlifting platforms, high-intensity crossfit boxes, temperature-controlled swimming pools, or female-friendly fitness spaces with certified personal trainers, GYMZONE makes finding your perfect workout spot effortless.
+          </p>
+          <a href="explore.html" class="btn btn-primary"><i class="fas fa-dumbbell"></i> Explore Jamshedpur Gyms</a>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop" alt="Gym" style="border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-card);">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Stats Counter -->
+  <section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card" style="justify-content: center; text-align: center; flex-direction: column;">
+          <div class="stat-val" style="color: var(--accent-orange); font-size: 3rem;">8+</div>
+          <div class="stat-label">Featured Gym Localities in Jamshedpur</div>
+        </div>
+
+        <div class="stat-card" style="justify-content: center; text-align: center; flex-direction: column;">
+          <div class="stat-val" style="color: var(--accent-orange); font-size: 3rem;">100%</div>
+          <div class="stat-label">Transparent Membership Pricing</div>
+        </div>
+
+        <div class="stat-card" style="justify-content: center; text-align: center; flex-direction: column;">
+          <div class="stat-val" style="color: var(--accent-orange); font-size: 3rem;">Free</div>
+          <div class="stat-label">1-Day Trial Booking Passes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 GYMZONE Jamshedpur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/gyms.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
